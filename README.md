@@ -1,2 +1,2 @@
 # Azul
-Implementation of the board game Azul and simulations of various AI strategies.
+A Python implementation of the board game Azul.
