@@ -14,6 +14,9 @@ class Player:
     def __init__(self, ID):
         self.ID = ID
         self.playerBoard = PlayerBoard.PlayerBoard()
+    
+    def getFactoryState():
+        1 # FIXME
 
     def takeTurn(self, factories, factoryChoiceID,
                  tileColorChoice, patternLineIdxChoice):

@@ -11,5 +11,5 @@ class Tile:
 
     def __init__(self, color):
         self.color = color
-        self.rowIndex
-        self.colIndex
+        self.rowIndex = None
+        self.colIndex = None

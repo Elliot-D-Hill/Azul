@@ -16,9 +16,9 @@ class FillLine:
 
     def placeTiles(self, tiles):
         leftOverTiles = []
-        for i in range(len(tiles)):
+        for tile in tiles:
             if len(self.fillLine) < 8:
-                self.fillLine.put(tiles[i])
+                self.fillLine.put(tile)
             else:
-                leftOverTiles.append(tiles[i])
+                leftOverTiles.append(tile)
         return leftOverTiles
