@@ -14,11 +14,10 @@ class FillLine:
         self.fillLinePenalties = [-1, -1, -2, -2, -2, -3, -3]
         self.fillLine = queue.Queue(maxsize=7)
 
-    def placeTiles(self, tiles):
-        leftOverTiles = []
+    def placeTiles(self, tiles, game):
         for tile in tiles:
             if len(self.fillLine) < 8:
                 self.fillLine.put(tile)
             else:
-                leftOverTiles.append(tile)
-        return leftOverTiles
+                game.tileLid.put(tile)
+        return 

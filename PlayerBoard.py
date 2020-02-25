@@ -7,7 +7,7 @@ Created on Thu Jan  9 21:42:49 2020
 """
 
 import Wall
-import PatternLines
+import PatternLine
 import FillLine
 import ScoreBoard
 
@@ -16,6 +16,6 @@ class PlayerBoard:
 
     def __init__(self):
         self.wall = Wall.Wall()
-        self.patternLine = PatternLines.PatternLines()
+        self.patternLines = [PatternLine.PatternLine(idx=i) for i in range(5)]
         self.fillLine = FillLine.FillLine()
         self.scoreBoard = ScoreBoard.ScoreBoard()

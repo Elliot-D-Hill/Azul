@@ -7,19 +7,19 @@ Created on Thu Jan  2 13:06:59 2020
 """
 
 import Game
-import Tile
 
 # setup game
-
-numPlayers = 4
+numPlayers = 2
 # AI = ['Angry', 'Greedy', 'Patient', 'Careful']
 
 game = Game.Game(numPlayers)
 game.setupGame()
+game.fillFactories()
 
+# game.players[0].playerBoard.wall.printWall()
+# game.players[0].playerBoard.wall.printLegal()
 
-tile = Tile.Tile('b')
-tile2 = Tile.Tile('t')
-game.players[0].playerBoard.wall.placeTile(tile, 3, 2)
-game.players[0].playerBoard.wall.placeTile(tile2, 2, 4)
-game.players[0].playerBoard.wall.printWall()
+for i in range(len(game.players[0].getFactoriesState(game))):
+    print(game.players[0].getFactoriesState(game)[i])
+
+print('\n')

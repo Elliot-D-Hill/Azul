@@ -14,9 +14,9 @@ class Factory:
         self.tiles = []
 
     def chooseTiles(self, colorChoice):
-        # gets all the tiles of the color that the player chooses
+        # gets all the tiles of the color that the player chooses                        
         tilesOfColorChoice = [tile for tile in self.tiles
-                              if tile == colorChoice]
+                              if tile.color == colorChoice]
         # removes tiles of color choice from the factory
         self.tiles = [tile for tile in self.tiles if tile != colorChoice]
         return tilesOfColorChoice
