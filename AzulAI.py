@@ -6,21 +6,62 @@ Created on Fri Feb 14 08:44:49 2020
 @author: Elliot
 """
 
-class AzulAI:
-    def __init__(self, behavior):
-        self.behavior = 'random'
+import random
+from abc import ABC, abstractmethod
+
+class AzulAI(ABC):
+    
+    def __init__(self, game):        
+        self.game = game
         
-    def aggressive():
-        1
+    @abstractmethod
+    def chooseTiles(self):
+        pass
+    
+class RandomBot(AzulAI):
+    
+    def __init__(self, game):
+        super().__init__(game)
+    
+    # randomly choose factory and tile color
+    def chooseTiles(self):
+        factoryChoice = random.randrange(self.game.numFactories - 1)
+        randomIdx = random.randrange(self.game.tilesPerFactory - 1)
+        tileColorChoice = self.game.factories[factoryChoice].tiles[randomIdx].color
+
+        return factoryChoice, tileColorChoice
         
-    def greedy():
-        1
     
-    def patient():
-        1
+class AggressiveBot(AzulAI):
     
-    def cautious():
-        1
+    def __init__(self, game):
+        super().__init__(game)
     
-    def choosePatternLine(self):
-        1 # FIXME
+    def chooseTiles(self):
+        pass
+        
+    
+class GreedyBot(AzulAI):
+    
+    def __init__(self, game):
+        super().__init__(game)
+    
+    def chooseTiles(self):
+        pass
+    
+    
+class PatientBot(AzulAI):
+    
+    def __init__(self, game):
+        super().__init__(game)
+    
+    def chooseTiles():
+        pass
+    
+class CautiousBot(AzulAI):
+    
+    def __init__(self, game):
+        super().__init__(game)
+    
+    def chooseTiles():
+        pass

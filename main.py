@@ -7,6 +7,8 @@ Created on Thu Jan  2 13:06:59 2020
 """
 
 import Game
+import Player
+import AzulAI
 
 # setup game
 numPlayers = 2
@@ -14,12 +16,19 @@ numPlayers = 2
 
 game = Game.Game(numPlayers)
 game.setupGame()
-game.fillFactories()
 
-# game.players[0].playerBoard.wall.printWall()
-# game.players[0].playerBoard.wall.printLegal()
+AI = AzulAI.RandomBot(game)
 
-for i in range(len(game.players[0].getFactoriesState(game))):
-    print(game.players[0].getFactoriesState(game)[i])
+# fill an array of players
+for ID in range(game.numPlayers):
+    game.players.append(Player.Player(ID, AI, game))
 
+game.printFactoryState()
 print('\n')
+
+game.playRound(game)
+
+game.players[0].playerBoard.wall.printWall()
+game.players[0].playerBoard.wall.printLegal()
+game.updateFactoriesState()
+

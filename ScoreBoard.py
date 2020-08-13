@@ -16,6 +16,7 @@ class ScoreBoard:
         self.score = self.score - penalty
 
     def checkSpecialPoints(self, wall):
+        
         def rowSpecial(wall):
             for i in range(wall.maxIdx):
                 count = 0
@@ -25,7 +26,7 @@ class ScoreBoard:
                 if count == 5:
                     self.score += 2
                         
-        def colSpecial(wall):
+        def columnSpecial(wall):
             for i in range(wall.maxIdx):
                 count = 0
                 for j in range(wall.maxIdx):

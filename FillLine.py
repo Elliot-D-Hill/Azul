@@ -16,8 +16,7 @@ class FillLine:
 
     def placeTiles(self, tiles, game):
         for tile in tiles:
-            if len(self.fillLine) < 8:
+            if self.fillLine.qsize() < 8:
                 self.fillLine.put(tile)
             else:
                 game.tileLid.put(tile)
-        return 

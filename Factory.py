@@ -10,13 +10,15 @@ Created on Mon Jan  6 12:34:18 2020
 class Factory:
 
     def __init__(self, ID):
-        self.id = ID
+        self.ID = ID
         self.tiles = []
 
     def chooseTiles(self, colorChoice):
+        
         # gets all the tiles of the color that the player chooses                        
         tilesOfColorChoice = [tile for tile in self.tiles
                               if tile.color == colorChoice]
+        
         # removes tiles of color choice from the factory
         self.tiles = [tile for tile in self.tiles if tile != colorChoice]
         return tilesOfColorChoice
@@ -28,3 +30,17 @@ class Factory:
             return remainingTiles
         else:
             print("Number of tiles error")
+            
+
+class CenterFactory(Factory):
+    
+    def __init__(self, ID):
+        super().__init__(ID)
+        self.ID = ID
+        self.tiles = []
+        self.hasFirstPlayerTile = True
+        
+        
+        
+        
+        

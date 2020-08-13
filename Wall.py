@@ -14,6 +14,7 @@ class Wall:
         self.maxIdx = 5
         self.tileWall = [[None for _ in range(self.maxIdx)] for _ in range(self.maxIdx)]
         self.colors = deque(["bl", "yl", "rd", "bk", "tl"])
+        
         # fill tile wall with dictionary that holds legal color and player tiles
         for row in range(self.maxIdx):
             for col in range(self.maxIdx):
