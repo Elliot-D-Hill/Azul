@@ -14,9 +14,9 @@ import ScoreBoard
 
 class PlayerBoard:
 
-    def __init__(self, game):
+    def __init__(self):
         self.wall = Wall.Wall()
-        self.patternLines = {color : PatternLine.PatternLine(i, game) 
+        self.patternLines = {color : PatternLine.PatternLine(i) 
                              for i, color in enumerate(self.wall.colors)}
         self.fillLine = FillLine.FillLine()
         self.scoreBoard = ScoreBoard.ScoreBoard()

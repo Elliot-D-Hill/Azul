@@ -5,7 +5,7 @@ Created on Fri Feb 14 08:20:12 2020
 
 @author: Elliot
 """
-import queue
+import collections
 import random
 import Factory
 import Tile
@@ -18,9 +18,8 @@ class Game:
         self.numTiles = 100
         self.tileArray = [None for i in range(self.numTiles)]
         self.factories = []
-        self.players = []
-        self.tileBag = queue.Queue(maxsize=self.numTiles)
-        self.tileLid = queue.Queue(maxsize=self.numTiles)
+        self.tileBag = collections.deque(maxlen=self.numTiles)
+        self.tileLid = collections.deque(maxlen=self.numTiles)
         self.tilesPerFactory = 4
         self.winner = None
         self.firstPlayerTile = Tile.Tile("firstPlayer")
@@ -55,7 +54,7 @@ class Game:
         random.shuffle(self.tileArray)
         
         for i in range(self.numTiles):
-            self.tileBag.put(self.tileArray[i])
+            self.tileBag.append(self.tileArray[i])
         
         # create center factory
         self.factories.append(Factory.CenterFactory(0))
@@ -68,29 +67,27 @@ class Game:
         self.factoriesState[0].update({'fp' : 1})
             
 
-    def roundIsOver(self):  
-        
+    def roundIsOver(self):
+        roundIsOver = True
         for factory in self.factories:
             if not factory.tiles:
                 roundIsOver = False
                 break
-            else:
-                roundIsOver = True
                 
         return roundIsOver
 
     # returns a boolean indicating if a row is full which implies the final round
-    def gameOver(self):
+    def gameOver(self, players):
         
-        if not self.players:
+        if not players:
             raise Exception('Player list is empty')
             
         rowLength = 5
-        for i in range(self.numPlayers):
-            for j in range(rowLength):
+        for player in players:
+            for i in range(rowLength):
                 counter = 0
-                for k in range(rowLength):
-                    if self.players[i].playerBoard.wall.tileWall[j][k] is not None:
+                for j in range(rowLength):
+                    if player.playerBoard.wall.tileWall[i][j] is not None:
                         counter += 1
                         if counter == 5:
                             gameIsOver = True
@@ -99,14 +96,14 @@ class Game:
                             
         return gameIsOver
 
-    def theWinnerIs(self):
+    def theWinnerIs(self, players):
         
         scores = []
-        for player in self.players:
-            scores = player.scoreBoard.score
+        for player in players:
+            scores.append(player.playerBoard.scoreBoard.score)
         # return multiple indices because there may be one or more ties
         winnerIndices = [i for i, score in enumerate(scores) if score == max(scores)]
-        winners = [self.players[i] for i in winnerIndices]
+        winners = [players[i] for i in winnerIndices]
         
         return winners
 
@@ -123,9 +120,9 @@ class Game:
                 
                 if not self.tileBag:
                     while not self.tileLid:
-                        self.tileBag.put(self.tileLid.get())
+                        self.tileBag.append(self.tileLid.pop())
                 else:
-                    self.factories[i].tiles.append(self.tileBag.get())
+                    self.factories[i].tiles.append(self.tileBag.pop())
     
     # Update current state tiles in each factory
     def updateFactoriesState(self):
@@ -155,31 +152,33 @@ class Game:
         for i in range(self.numFactories):
             print(self.factoriesState[i])
                 
-    def playRound(self, game): # FIXME
+    def playRound(self, players): # FIXME
     
         # refill factories with tiles
         self.fillFactories()
         self.updateFactoriesState()
         self.printFactoryState()
         
-        while self.roundIsOver():
-            for player in self.players:
-                if self.roundIsOver():
-                    break
-            self.printFactoryState
-            player.takeTurn(game)
+        while not self.roundIsOver():
+            for player in players:
+                self.printFactoryState()
+                player.takeTurn(self)
+            print('why')
 
-    def playGame(self):
-        while not self.gameOver(self.players):
+    def playGame(self, players):
+        while not self.gameOver(players):
             self.playRound()
         
-        winners = self.theWinnerIs()
+        winners = self.theWinnerIs(players)
         if len(winners) == 1:
             print("The winner is: ")
         else:
             print('The winners are: ')
         
+        for player in players:
+            print(f'Player {player.ID} score: {player.playerBoard.scoreBoard.score}')
+        
         for winner in winners:
-            print(winner)
+            print(f'Bot: {winner.ID}')
             
             

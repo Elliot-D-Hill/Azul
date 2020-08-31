@@ -16,19 +16,21 @@ numPlayers = 2
 
 game = Game.Game(numPlayers)
 game.setupGame()
-
-AI = AzulAI.RandomBot(game)
+AI = AzulAI.RandomBot()
 
 # fill an array of players
+players = []
 for ID in range(game.numPlayers):
-    game.players.append(Player.Player(ID, AI, game))
+    players.append(Player.Player(ID, AI))
 
 game.printFactoryState()
 print('\n')
 
-game.playRound(game)
+game.playRound(players)
 
-game.players[0].playerBoard.wall.printWall()
-game.players[0].playerBoard.wall.printLegal()
+game.playGame(players)
+
+players[0].playerBoard.wall.printWall()
+players[0].playerBoard.wall.printLegal()
 game.updateFactoriesState()
 

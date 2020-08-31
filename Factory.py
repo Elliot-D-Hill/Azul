@@ -10,6 +10,7 @@ Created on Mon Jan  6 12:34:18 2020
 class Factory:
 
     def __init__(self, ID):
+        self.factory_type = 'factory'
         self.ID = ID
         self.tiles = []
 
@@ -30,12 +31,12 @@ class Factory:
             return remainingTiles
         else:
             print("Number of tiles error")
-            
 
 class CenterFactory(Factory):
     
     def __init__(self, ID):
         super().__init__(ID)
+        self.factory_type = 'center'
         self.ID = ID
         self.tiles = []
         self.hasFirstPlayerTile = True

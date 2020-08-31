@@ -6,43 +6,38 @@ Created on Mon Jan  6 22:35:37 2020
 @author: Elliot
 """
 
-import queue
+# import queue
+import collections
 
 
 class PatternLine:
 
     
-    def __init__(self, idx, game):
-        self.game = game
+    def __init__(self, idx):
         self.idx = idx
         self.maxsize = idx + 1
-        self.line = queue.Queue(maxsize=self.maxsize)
+        self.line = collections.deque(maxlen=self.maxsize)
+        # self.line = queue.Queue(maxsize=self.maxsize)
         self.tileColors = ["bl", "yl", "rd", "bk", "tl"]
 
-    def placeTiles(self, tiles, playerBoard):
+    def placeTiles(self, playerBoard, tiles, game):
     
         colorIdx = self.tileColors.index(tiles['color'])
         if playerBoard.wall.tileWall[self.idx][colorIdx]['tile'] is None:
             
             for tile in tiles:
-                
-                if self.line.full():
-                    playerBoard.fillLine.placeTiles(tiles, self.game)
+                if self.line:
+                    playerBoard.fillLine.placeTiles(tiles, game)
                     break
-                else:
-                    
-                    print('\n')
-                    print(len(tiles['tiles']))
-                    print(tiles['tiles'][0].color)
-                    
-                    self.line.put(tiles['tiles'].pop())
+                else:                    
+                    self.line.append(tiles['tiles'].pop())
         else:
             raise Exception('Invalid tile placement')
     
-    def tileToWall(self, playerID, game):
+    def tileToWall(self, player, game):
         
-        game.players[playerID].playerBoard.wall.placeTile(self.line.pop(), self.idx)
+        player.playerBoard.wall.placeTile(self.line.pop(), self.idx)
         
         # all other tiles go to the tile lid
         while not self.line.empty():
-            game.tileLid.put(self.line.pop())
+            game.tileLid.append(self.line.pop())

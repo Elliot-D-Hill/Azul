@@ -14,33 +14,36 @@ class ScoreBoard:
 
     def applyPenalty(self, penalty):
         self.score = self.score - penalty
-
-    def checkSpecialPoints(self, wall):
         
-        def rowSpecial(wall):
-            for i in range(wall.maxIdx):
-                count = 0
-                for j in range(wall.maxIdx):
-                    if wall.tileWall[i,j] is not None:
-                        count += 1
-                if count == 5:
-                    self.score += 2
-                        
-        def columnSpecial(wall):
-            for i in range(wall.maxIdx):
-                count = 0
-                for j in range(wall.maxIdx):
-                    if wall.tileWall[j,i] is not None:
-                        count += 1
-                if count == 5:
-                    self.score += 7
+    def rowSpecial(self, wall):
+        for i in range(wall.maxIdx):
+            count = 0
+            for j in range(wall.maxIdx):
+                if wall.tileWall[i,j] is not None:
+                    count += 1
+            if count == 5:
+                self.score += 2
                     
-        def fiveOfaKind(wall):
-            counts = {"blue": 0, "yellow": 0, "red": 0, "black": 0, "teal": 0}
-            for i in range(wall.maxIdx):
-                for j in range(wall.maxIdx):
-                    if wall.tileWall[j,i] is not None:
-                        counts[wall.tileWall[j,i].color] += 1
-            for count in counts:
-                if counts[count] == 5:
-                    self.score += 10
+    def columnSpecial(self, wall):
+        for i in range(wall.maxIdx):
+            count = 0
+            for j in range(wall.maxIdx):
+                if wall.tileWall[j,i] is not None:
+                    count += 1
+            if count == 5:
+                self.score += 7
+                
+    def fiveOfaKind(self, wall):
+        counts = {"blue": 0, "yellow": 0, "red": 0, "black": 0, "teal": 0}
+        for i in range(wall.maxIdx):
+            for j in range(wall.maxIdx):
+                if wall.tileWall[j,i] is not None:
+                    counts[wall.tileWall[j,i].color] += 1
+        for count in counts:
+            if counts[count] == 5:
+                self.score += 10
+                
+    def checkSpecialPoints(self, wall):
+        self.rowSpecial(wall)
+        self.columnSpecial(wall)
+        self.fiveOfaKind(wall)
